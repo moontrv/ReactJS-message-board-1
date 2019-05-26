@@ -1,0 +1,127 @@
+/* ELEMENT STYLES -------------------- */
+body {
+    background: #e8e7e7; 
+    font-family: arial;
+    text-transform: uppercase;
+  }
+  
+  header {
+    color: #FFF;
+    padding: 5px 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    /* background-color:; */
+    border-bottom: solid 2px #D4CAFF;
+  }
+  
+  header h1 {
+    flex-grow: 1;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    font-weight: normal;
+  }
+  
+  /* FORMS */
+  form {
+    display: flex;
+    background-color: grey;
+  }
+  
+  input[type=text] {
+    flex-grow: 1;
+    border-width: 0 0 1px 0;
+    margin: 15px 10px 15px 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #d3d3d3;
+    border-style: none;
+    text-shadow: none;
+    text-transform: uppercase;
+    color: #C7BCF8;
+    letter-spacing: 2px;
+    outline: none;
+  }
+  
+  input[type=text]::-webkit-input-placeholder{
+    color: #C7BCF8;
+    letter-spacing: 2px;
+  }
+  
+  input[type=text]:focus{
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  input[type=submit] {
+    display: block;
+    font-size: .6em;
+    margin: 15px 15px 15px 0; 
+    padding: 10px;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: none;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  
+  button, 
+  input[type=submit] {
+    outline: none;
+    transition: background-color 0.2s ease,
+                color 0.2s ease;
+  }
+  
+
+  /* COMPONENT STYLES -------------------- */
+  .messageboard {
+    background: #fff;
+    width: 700px;
+    margin: 70px auto;
+    box-shadow: 0 2px 0 rgb(133, 104, 250);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .channel {
+    display: flex;
+    font-size: 1.2em;
+    border-bottom: solid 2px #EEEEEE;
+    letter-spacing: 2px;
+  }
+  
+    .channel:last-of-type {
+      border-bottom-color: #D4CAFF;
+    }
+  
+    .channel-name:hover .remove-channel {
+      visibility: visible;
+    }
+  
+    .channel-name,
+    .counter-message {
+      color: #2F2366;
+    }
+  
+    .channel-name {
+      flex-grow: 1;
+      line-height: 3.5em;
+      padding-left: 10px;
+    }
+  
+    .remove-channel {
+      font-size: 1.15em;
+      border: none;
+      outline: none;
+      visibility: hidden;
+      color: #EF5350;
+      cursor: pointer;
+      margin: 0 10px 0 0;
+      padding: 0;
+      background: none;
+    }
+  
+  
