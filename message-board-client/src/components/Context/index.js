@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+const axios = require('axios');
 
 const MessageboardContext = React.createContext();
 
@@ -30,6 +31,25 @@ export class Provider extends Component {
     selectChannel: undefined
   };
 
+  componentWillMount() {
+    // GET channels from route localhost:5000/channels
+    const request_url = "http://localhost:5000/channels";
+    axios.get(request_url)
+      .then((response) => {
+        this.setState(prevState => {
+          return {
+            channels: response.data,
+            selectChannel: undefined
+          };
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+      });
+  }
+
   // channel id counter
   prevchannelId = 4;
 
@@ -59,7 +79,7 @@ export class Provider extends Component {
   addMessage = (value, id) => {
     this.setState(prevState => {
       let newChannel = [...prevState.channels];
-      newChannel[id-1].message.push(value);
+      newChannel[id - 1].message.push(value);
       return {
         channels: newChannel,
         selectChannel: prevState.selectChannel
@@ -78,6 +98,34 @@ export class Provider extends Component {
         selectChannel : id
       };
     });
+    // GET messages from route localhost:5000/messages/:cID
+    // const request_url = "http://localhost:5000/messages/" + id;
+    // axios.get(request_url)
+    //   .then((response) => {
+    //     this.setState(prevState => {
+    //       let newState = {
+    //         channels: [
+    //           ...prevState.channels
+    //         ],
+    //         selectChannel: id
+    //       };
+    //       newState.channels.map(a => {
+    //         if (a.id === id) {
+    //           a.message = response.data;
+    //         }
+    //         return true;
+    //       });
+    //       //console.log(newState);
+    //       return {
+    //         newState
+    //       };
+    //     });
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   })
+    //   .finally(function () {
+    //   });
   }
 
   render() {
@@ -85,7 +133,7 @@ export class Provider extends Component {
       <MessageboardContext.Provider value={{
         channels: this.state.channels,
         actions: {
-          selectChannel : this.selectChannel,
+          selectChannel: this.selectChannel,
           addMessage: this.addMessage,
           removechannel: this.handleRemovechannel,
           addchannel: this.handleAddchannel

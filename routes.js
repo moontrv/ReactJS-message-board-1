@@ -4,62 +4,50 @@ const express = require("express");
 const router = express.Router();
 const MessageBoard = require("./models").MessageBoard;
 
-router.get("/channels", function (req, res, next, id) {
-    res.json({
-        channels: [
-            {
-                name: "Channel1",
-                message: [],
-                id: 1
-            },
-            {
-                name: "Channel2",
-                message: [],
-                id: 2
-            },
-            {
-                name: "Channel3",
-                message: [],
-                id: 3
-            },
-            {
-                name: "Channel4",
-                message: [],
-                id: 4
+router.param("cID", function(req,res,next,id){
+	MessageBoard.find({}, function(err, doc){
+        let channels = doc[0].channels;        
+        let foundChannel;
+        channels.map(function(channel){
+            if(channel.id == id){
+                foundChannel = channel;
             }
-        ],
-        selectChannel: undefined
-    });
-    next();
+        });
+        if(err) return next(err);     
+		if(!foundChannel) {
+			err = new Error("Not Found");
+			err.status = 404;
+			return next(err);
+        }        
+        req.channelId = id;
+        req.doc = doc;
+        req.foundChannel = foundChannel;
+		return next();
+	});
 });
 
-router.get("/messages/:cID", function (req, res, next, id) {
-    MessageBoard.findAll(id, function (err, doc) {
-        if (err) return next(err);
-        if (!doc) {
-            err = new Error("Not Found");
-            err.status = 404;
-            return next(err);
-        }
-        req.customer = doc;
-        return next();
-    });
-    next();
+router.get("/channels", function (req, res) {
+    MessageBoard.findOne({}, function(err, doc){
+        res.json(doc.channels);
+    });   
 });
 
-router.put("/channel/:cID", function (req, res, next, id) {
-    const channelId = req.params.cID;
-    MessageBoard.findAll(id, function (err, doc) {
-        if (err) return next(err);
-        if (!doc) {
-            err = new Error("Not Found");
-            err.status = 404;
-            return next(err);
-        }
-        req.customer = doc;
-        return next();
-    });
-    next();
+router.get("/messages/:cID", function (req, res) {
+    res.json(req.foundChannel.message);
+});
+
+router.put("/channel/:cID", function (req, res, next) {
+    var message = req.body;  
+    MessageBoard.findOne({}, function(err, doc){
+        doc.channels.map(function(channel){
+            if(channel.id == req.channelId){                
+                channel.message.push(message.message);                
+            }
+        });
+        MessageBoard.findByIdAndUpdate(doc._id, doc, function(err, doc){
+        });
+        res.json({result: "success"});
+    }); 
 });
 
 module.exports = router;

@@ -1,10 +1,10 @@
 'use strict';
 
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-const MessageBoardSchema = new Schema({
+var MessageBoardSchema = new Schema({
 	channels: Array,
     selectChannel: Number,
     createdAt: {type: Date, default: Date.now},
@@ -12,6 +12,6 @@ const MessageBoardSchema = new Schema({
 });
 
 
-const MessageBoard = mongoose.model("Booking", MessageBoardSchema);
+var MessageBoard = mongoose.model("MessageBoard", MessageBoardSchema);
 
 module.exports.MessageBoard = MessageBoard;
